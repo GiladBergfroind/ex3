@@ -1,6 +1,6 @@
 /******************
-Name:
-ID:
+Name: Gilad Bergfroind
+ID: 331749978
 Assignment: ex3
 *******************/
 
