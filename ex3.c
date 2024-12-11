@@ -37,7 +37,7 @@ void initializeSalesData(int salesData[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES
     for (int i = 0; i < DAYS_IN_YEAR; i++) {
         for (int j = 0; j < NUM_OF_BRANDS; j++) {
             for (int k = 0; k < NUM_OF_TYPES; k++) {
-                salesData[i][j][k] = -1;
+                salesData[i][j][k] = 0;  // Initialize all sales data to 0
             }
         }
     }
@@ -112,18 +112,18 @@ void displayStats(int salesData[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], int 
 }
 
 void printAllSales(int salesData[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], int dayCount[NUM_OF_BRANDS]) {
-    printf("***************\n\n");
+    printf("***************\n");
     for (int i = 0; i < NUM_OF_BRANDS; i++) {
         printf("Sales for %s:\n", brands[i]);
         for (int j = 0; j < dayCount[0]; j++) {
-            printf("Day %d - ", j + 1);
+            printf("Day %d- ", j + 1);
             for (int k = 0; k < NUM_OF_TYPES; k++) {
                 printf("%s: %d ", types[k], salesData[j][i][k]);
             }
             printf("\n");
         }
     }
-    printf("\n***************\n");
+    printf("***************\n");
 }
 
 void provideInsights(int salesData[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], int dayCount[NUM_OF_BRANDS]) {
@@ -187,7 +187,7 @@ void calculateDeltas(int salesData[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], i
             avgDelta += delta[i][j];
         }
         avgDelta /= (dayCount[0] - 1);
-        printf("Brand: %s, Average Delta: %.2f\n", brands[i], avgDelta);
+        printf("Brand: %s, Average Delta: %.6f\n", brands[i], avgDelta);
     }
 }
 
@@ -206,12 +206,19 @@ int main() {
             case ADD_ONE: {
                 int brand = getValidBrand();
                 int sales[NUM_OF_TYPES];
+                printf("Enter sales data for %s:\n", brands[brand]);
                 getSalesForBrand(sales);
                 updateSalesData(salesData, dayCount, brand, sales);
                 break;
             }
             case ADD_ALL: {
-                // Same logic from the original code for handling multiple brands
+                printf("Enter sales data for all brands:\n");
+                for (int i = 0; i < NUM_OF_BRANDS; i++) {
+                    int sales[NUM_OF_TYPES];
+                    printf("Enter sales for %s: ", brands[i]);
+                    getSalesForBrand(sales);
+                    updateSalesData(salesData, dayCount, i, sales);
+                }
                 break;
             }
             case STATS:
@@ -227,7 +234,6 @@ int main() {
                 calculateDeltas(salesData, dayCount);
                 break;
             default:
-                printf("Invalid input\n");
                 break;
         }
 
@@ -236,6 +242,5 @@ int main() {
     }
 
     printf("Goodbye!\n");
-
     return 0;
 }
